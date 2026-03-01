@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════ NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <div class="navbar__logo">
+        <svg class="navbar__logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"
+                stroke="url(#ig-grad)" stroke-width="2" fill="none"/>
+          <circle cx="12" cy="12" r="5" stroke="url(#ig-grad)" stroke-width="2" fill="none"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="url(#ig-grad)"/>
+          <defs>
+            <linearGradient id="ig-grad" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#f09433"/>
+              <stop offset="25%" stop-color="#e6683c"/>
+              <stop offset="50%" stop-color="#dc2743"/>
+              <stop offset="75%" stop-color="#cc2366"/>
+              <stop offset="100%" stop-color="#bc1888"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="navbar__logo-text">Instagram</span>
+      </div>
+
+      <div class="navbar__search">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="8" stroke="#8e8e8e" stroke-width="2"/>
+          <path d="M21 21l-4.35-4.35" stroke="#8e8e8e" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input type="text" class="navbar__search-input" placeholder="Search" aria-label="Search" />
+      </div>
+
+      <div class="navbar__actions">
+        <button class="nav-btn nav-btn--active" aria-label="Home" title="Home">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </button>
+        <button class="nav-btn" aria-label="Reels" title="Reels">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="2.18"/>
+            <path d="M7 2v20M17 2v20M2 12h20M2 7h5M17 7h5M2 17h5M17 17h5"/>
+          </svg>
+        </button>
+        <button class="nav-btn" aria-label="New post" title="New post">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <path d="M12 8v8M8 12h8"/>
+          </svg>
+        </button>
+        <button class="nav-btn" aria-label="Messages" title="Direct Messages">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </button>
+        <button class="nav-btn" aria-label="Notifications" title="Notifications">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </button>
+        <button class="nav-btn nav-btn--avatar" aria-label="Profile" title="Profile">
+          <img src="https://ui-avatars.com/api/?name=You&background=e0e0e0&color=555&size=28" alt="Your profile" />
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════ NEW POSTS TOAST -->
+  <div class="new-posts-toast" id="newPostsToast" role="status" aria-live="polite">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+    New posts available
+  </div>
+
+  <!-- ══════════════════════════════════════════════ STORY OVERLAY -->
+  <div class="story-overlay" id="storyOverlay" role="dialog" aria-modal="true" aria-label="Story viewer">
+    <div class="story-overlay__progress">
+      <div class="story-overlay__progress-bar" id="storyProgressBar"></div>
+    </div>
+    <div class="story-overlay__header">
+      <div class="story-overlay__user">
+        <img class="story-overlay__avatar" id="storyAvatar" src="" alt="" />
+        <span class="story-overlay__username" id="storyUsername"></span>
+        <span class="story-overlay__time" id="storyTime"></span>
+      </div>
+      <button class="story-overlay__close" id="storyClose" aria-label="Close story">✕</button>
+    </div>
+    <div class="story-overlay__image-wrap">
+      <img class="story-overlay__image" id="storyImage" src="" alt="" />
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ PAGE BODY -->
+  <main class="page-body">
+    <div class="feed-container">
+
+      <!-- ═══════════════════════════════════════════════ MAIN FEED -->
+      <section class="feed-main" aria-label="Feed">
+
+        <!-- STORIES BAR -->
+        <div class="stories-bar" id="storiesBar" role="list" aria-label="Stories">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- POST FEED -->
+        <div id="postFeed" role="feed" aria-label="Photo feed">
+          <!-- Injected by JS -->
+        </div>
+
+      </section>
+
+      <!-- ════════════════════════════════════════════════ SIDEBAR -->
+      <aside class="sidebar" aria-label="Sidebar">
+
+        <!-- Profile summary -->
+        <div class="sidebar__profile" id="sidebarProfile">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Suggestions -->
+        <div class="sidebar__suggestions">
+          <div class="sidebar__suggestions-header">
+            <span class="sidebar__label">Suggested for you</span>
+            <button class="sidebar__see-all">See all</button>
+          </div>
+          <div id="suggestionsList">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Footer links -->
+        <footer class="sidebar__footer">
+          <div class="sidebar__footer-links">
+            <a href="#">About</a> · <a href="#">Help</a> · <a href="#">Press</a> · <a href="#">API</a> ·
+            <a href="#">Jobs</a> · <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Locations</a>
+          </div>
+          <p class="sidebar__copyright">© 2024 INSTAGRAM FROM META</p>
+        </footer>
+
+      </aside>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
